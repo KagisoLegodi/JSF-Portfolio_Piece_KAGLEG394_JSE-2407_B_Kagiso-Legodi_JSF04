@@ -23,9 +23,11 @@
   </template>
   
   <script>
-  export default {
-    name: "CardSkeleton",
-  };
+  import { defineComponent } from 'vue';
+  
+  export default defineComponent({
+    name: 'CardSkeleton',
+  });
   </script>
   
   <style>
@@ -61,11 +63,11 @@
     animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
   
-  .md\\:p-6 {
+  .md\:p-6 {
     padding: 1.5rem;
   }
   
-  .dark\\:border-gray-700 {
+  .dark\:border-gray-700 {
     border-color: #374151;
   }
   
@@ -97,7 +99,7 @@
     border-radius: 0.375rem;
   }
   
-  .dark\\:bg-gray-700 {
+  .dark\:bg-gray-700 {
     background-color: #374151;
   }
   
@@ -105,7 +107,7 @@
     color: #e5e7eb;
   }
   
-  .dark\\:text-gray-600 {
+  .dark\:text-gray-600 {
     color: #4b5563;
   }
   
@@ -119,10 +121,6 @@
   
   .rounded-full {
     border-radius: 9999px;
-  }
-  
-  .dark\\:bg-gray-700 {
-    background-color: #374151;
   }
   
   .w-48 {
