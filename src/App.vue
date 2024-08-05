@@ -8,30 +8,30 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
-import Header from './components/Header.vue';
+import { defineComponent, ref, onMounted } from "vue";
+import Header from "./components/Header.vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   components: {
-    Header
+    Header,
   },
   setup() {
     const products = ref([]);
 
     onMounted(async () => {
       try {
-        const res = await fetch('https://fakestoreapi.com/products');
+        const res = await fetch("https://fakestoreapi.com/products");
         products.value = await res.json();
       } catch (error) {
-        console.error('Failed to fetch products:', error);
+        console.error("Failed to fetch products:", error);
       }
     });
 
     return {
-      products
+      products,
     };
-  }
+  },
 });
 </script>
 

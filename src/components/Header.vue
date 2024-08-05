@@ -1,11 +1,16 @@
 <template>
   <header class="sticky top-0 z-50 p-0">
     <nav class="bg-gray-500">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+      >
         <router-link to="/#">
           <div class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="/online-shop.png" class="h-8" alt="SwiftCart Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">SwiftCart</span>
+            <span
+              class="self-center text-2xl font-semibold whitespace-nowrap text-white"
+              >SwiftCart</span
+            >
           </div>
         </router-link>
         <button
@@ -33,8 +38,13 @@
           </svg>
         </button>
 
-        <div :class="['w-full md:block md:w-auto', { hidden: !showNavbar }]" id="navbar-dropdown">
-          <ul class="flex flex-col top-10 font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+        <div
+          :class="['w-full md:block md:w-auto', { hidden: !showNavbar }]"
+          id="navbar-dropdown"
+        >
+          <ul
+            class="flex flex-col top-10 font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0"
+          >
             <li>
               <router-link
                 to="/wishlist"
@@ -45,7 +55,11 @@
             </li>
             <li class="relative hidden md:block lg:block">
               <div class="absolute left-3 top-0">
-                <p class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">2</p>
+                <p
+                  class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white"
+                >
+                  2
+                </p>
               </div>
               <router-link to="/cart" class="text-white hover:bg-gray-700">
                 <svg
@@ -65,7 +79,10 @@
               </router-link>
             </li>
             <li class="lg:hidden md:hidden">
-              <router-link to="/cart" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+              <router-link
+                to="/cart"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
+              >
                 Cart
               </router-link>
             </li>
@@ -85,10 +102,10 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 export default {
-  name: 'Header',
+  name: "Header",
   setup() {
     const showNavbar = ref(false);
 
@@ -98,8 +115,8 @@ export default {
 
     return {
       showNavbar,
-      toggleNavbar
+      toggleNavbar,
     };
-  }
+  },
 };
 </script>

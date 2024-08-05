@@ -11,8 +11,13 @@
           <p>{{ product.description }}</p>
           <p class="price">${{ product.price }}</p>
           <p>Category: {{ product.category }}</p>
-          <p>Ratings: {{ product.rating.rate }} (Based on {{ product.rating.count }} reviews)</p>
-          <button @click="goBack" class="back-button">Go Back to Product List</button>
+          <p>
+            Ratings: {{ product.rating.rate }} (Based on
+            {{ product.rating.count }} reviews)
+          </p>
+          <button @click="goBack" class="back-button">
+            Go Back to Product List
+          </button>
         </div>
       </div>
     </div>
@@ -20,14 +25,14 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import CardSkeleton from './CardSkeleton.vue';
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import CardSkeleton from "./CardSkeleton.vue";
 
 export default {
   name: "ProductDetail",
   components: {
-    CardSkeleton
+    CardSkeleton,
   },
   setup() {
     const route = useRoute();
@@ -48,7 +53,7 @@ export default {
     };
 
     const goBack = () => {
-      router.push({ path: '/', query: route.query });
+      router.push({ path: "/", query: route.query });
     };
 
     onMounted(fetchProduct);
@@ -56,9 +61,9 @@ export default {
     return {
       product,
       loading,
-      goBack
+      goBack,
     };
-  }
+  },
 };
 </script>
 

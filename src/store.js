@@ -1,10 +1,10 @@
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
 
 export default createStore({
   state() {
     return {
-      selectedCategory: '',
-      sortOrder: ''
+      selectedCategory: "",
+      sortOrder: "",
     };
   },
   mutations: {
@@ -13,14 +13,14 @@ export default createStore({
     },
     setSortOrder(state, sortOrder) {
       state.sortOrder = sortOrder;
-    }
+    },
   },
   actions: {
     updateCategory({ commit }, category) {
-      commit('setCategory', category);
+      commit("setCategory", category);
     },
     updateSortOrder({ commit }, sortOrder) {
-      commit('setSortOrder', sortOrder);
-    }
-  }
+      commit("setSortOrder", sortOrder);
+    },
+  },
 });
