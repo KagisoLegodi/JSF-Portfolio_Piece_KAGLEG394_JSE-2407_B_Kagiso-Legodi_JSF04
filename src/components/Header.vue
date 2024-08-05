@@ -34,7 +34,7 @@
         </button>
 
         <div :class="['w-full md:block md:w-auto', { hidden: !showNavbar }]" id="navbar-dropdown">
-          <ul class="flex flex-col top-0 font-medium p-4 md:p-0 mt-4 borde  rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+          <ul class="flex flex-col top-10 font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
             <li>
               <router-link
                 to="/wishlist"
