@@ -8,23 +8,31 @@
 </template>
 
 <script>
+import { defineComponent, ref, onMounted } from 'vue';
 import Header from './components/Header.vue';
 
-export default {
+export default defineComponent({
   name: 'App',
   components: {
     Header
   },
-  data() {
+  setup() {
+    const products = ref([]);
+
+    onMounted(async () => {
+      try {
+        const res = await fetch('https://fakestoreapi.com/products');
+        products.value = await res.json();
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    });
+
     return {
-      products: []
+      products
     };
-  },
-  async mounted() {
-    const res = await fetch('https://fakestoreapi.com/products');
-    this.products = await res.json();
   }
-}
+});
 </script>
 
 <style>
