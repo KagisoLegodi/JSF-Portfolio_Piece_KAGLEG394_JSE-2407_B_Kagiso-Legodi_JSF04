@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container mx-auto p-4">
-      <h1 class="text-2xl font-bold mb-4">Products</h1>
+      <h1 class="text-2xl font-bold mb-4 text-center">Vue E-store</h1>
       <div class="filters">
         <select @change="handleCategoryChange" v-model="selectedCategory">
           <option value=''>All Categories</option>
