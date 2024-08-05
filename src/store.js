@@ -1,12 +1,11 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore } from 'vuex';
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
-  state: {
-    selectedCategory: '',
-    sortOrder: '',
+export default createStore({
+  state() {
+    return {
+      selectedCategory: '',
+      sortOrder: ''
+    };
   },
   mutations: {
     setCategory(state, category) {
@@ -14,7 +13,7 @@ export default new Vuex.Store({
     },
     setSortOrder(state, sortOrder) {
       state.sortOrder = sortOrder;
-    },
+    }
   },
   actions: {
     updateCategory({ commit }, category) {
@@ -22,6 +21,6 @@ export default new Vuex.Store({
     },
     updateSortOrder({ commit }, sortOrder) {
       commit('setSortOrder', sortOrder);
-    },
-  },
+    }
+  }
 });
