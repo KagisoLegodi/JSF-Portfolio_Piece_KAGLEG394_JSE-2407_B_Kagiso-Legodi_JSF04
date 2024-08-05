@@ -3,16 +3,8 @@
     <div class="container mx-auto p-4">
       <h1 class="text-2xl font-bold mb-4 text-center">Vue E-store</h1>
       <div class="filters">
-        <select @change="handleCategoryChange" v-model="selectedCategory">
-          <option value=''>All Categories</option>
-          <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
-        </select>
-
-        <select @change="handleSortChange" v-model="sortOrder">
-          <option value=''>Default</option>
-          <option value='low-to-high'>Price: Low to High</option>
-          <option value='high-to-low'>Price: High to Low</option>
-        </select>
+        <Filter :categories="categories" :initialCategory="selectedCategory" @update:category="handleCategoryChange" />
+        <Sort :initialSort="sortOrder" @update:sort="handleSortChange" />
       </div>
 
       <div v-if="loading">
@@ -39,12 +31,16 @@
 import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ProductSkeleton from './ProductSkeleton.vue';
+import Filter from './Filter.vue';
+import Sort from './Sort.vue';
 import { filterProducts, fetchCategories } from '../productUtils';
 
 export default {
   name: 'ProductList',
   components: {
-    ProductSkeleton
+    ProductSkeleton,
+    Filter,
+    Sort
   },
   setup() {
     const route = useRoute();
@@ -77,12 +73,14 @@ export default {
       categories.value = await fetchCategories();
     };
 
-    const handleCategoryChange = () => {
-      router.push({ query: { ...route.query, category: selectedCategory.value } });
+    const handleCategoryChange = (newCategory) => {
+      selectedCategory.value = newCategory;
+      router.push({ query: { ...route.query, category: newCategory } });
     };
 
-    const handleSortChange = () => {
-      router.push({ query: { ...route.query, sort: sortOrder.value } });
+    const handleSortChange = (newSort) => {
+      sortOrder.value = newSort;
+      router.push({ query: { ...route.query, sort: newSort } });
     };
 
     onMounted(async () => {
