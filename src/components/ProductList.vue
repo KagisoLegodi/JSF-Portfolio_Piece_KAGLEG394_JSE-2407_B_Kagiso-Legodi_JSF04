@@ -39,6 +39,7 @@
 <script>
 import HeaderComponent from './Header.vue';
 import ProductSkeleton from './ProductSkeleton.vue';
+import { filterProducts, fetchCategories } from '../productUtils';
 
 export default {
   name: 'ProductList',
@@ -57,19 +58,22 @@ export default {
     };
   },
   mounted() {
-    this.fetchCategories();
-    this.fetchProducts();
+    this.initializeData();
   },
   methods: {
+    async initializeData() {
+      await this.fetchCategories();
+      await this.fetchProducts();
+    },
     async fetchProducts() {
       try {
         // Simulate a delay
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        
+
         const response = await fetch('https://fakestoreapi.com/products');
         const data = await response.json();
         this.products = data;
-        this.filterProducts(); // Update filteredProducts after fetching
+        this.updateFilteredProducts(); // Update filteredProducts after fetching
       } catch (error) {
         console.error(error);
       } finally {
@@ -77,32 +81,25 @@ export default {
       }
     },
     async fetchCategories() {
-      const res = await fetch('https://fakestoreapi.com/products/categories');
-      this.categories = await res.json();
+      this.categories = await fetchCategories();
     },
     handleCategoryChange(event) {
       this.selectedCategory = event.target.value;
-      this.filterProducts();
+      this.updateFilteredProducts();
     },
     handleSortChange(event) {
       this.sortOrder = event.target.value;
-      this.filterProducts();
+      this.updateFilteredProducts();
     },
-    filterProducts() {
-      this.filteredProducts = this.products
-        .filter(product => this.selectedCategory ? product.category === this.selectedCategory : true)
-        .sort((a, b) => {
-          if (this.sortOrder === 'low-to-high') return a.price - b.price;
-          if (this.sortOrder === 'high-to-low') return b.price - a.price;
-          return 0;
-        });
+    updateFilteredProducts() {
+      this.filteredProducts = filterProducts(this.products, this.selectedCategory, this.sortOrder);
     }
   },
   watch: {
     products: {
       immediate: true,
       handler(newProducts) {
-        this.filterProducts();
+        this.updateFilteredProducts();
       }
     }
   }
