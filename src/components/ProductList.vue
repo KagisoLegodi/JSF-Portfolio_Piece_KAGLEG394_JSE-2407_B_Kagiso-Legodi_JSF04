@@ -1,15 +1,14 @@
 <template>
   <div>
-    <header-component />
     <div class="container mx-auto p-4">
       <h1 class="text-2xl font-bold mb-4">Products</h1>
       <div class="filters">
-        <select @change="handleCategoryChange">
+        <select @change="handleCategoryChange" v-model="selectedCategory">
           <option value=''>All Categories</option>
           <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
         </select>
 
-        <select @change="handleSortChange">
+        <select @change="handleSortChange" v-model="sortOrder">
           <option value=''>Default</option>
           <option value='low-to-high'>Price: Low to High</option>
           <option value='high-to-low'>Price: High to Low</option>
@@ -37,71 +36,75 @@
 </template>
 
 <script>
-import HeaderComponent from './Header.vue';
+import { ref, onMounted, watch, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import ProductSkeleton from './ProductSkeleton.vue';
 import { filterProducts, fetchCategories } from '../productUtils';
 
 export default {
   name: 'ProductList',
   components: {
-    
-    ProductSkeleton,
+    ProductSkeleton
   },
-  data() {
-    return {
-      loading: true,
-      products: [],
-      categories: [],
-      selectedCategory: '',
-      sortOrder: '',
-      filteredProducts: []
-    };
-  },
-  mounted() {
-    this.initializeData();
-  },
-  methods: {
-    async initializeData() {
-      await this.fetchCategories();
-      await this.fetchProducts();
-    },
-    async fetchProducts() {
-      try {
-        // Simulate a delay
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
 
+    const loading = ref(true);
+    const products = ref([]);
+    const categories = ref([]);
+    const selectedCategory = ref(route.query.category || '');
+    const sortOrder = ref(route.query.sort || '');
+
+    const filteredProducts = computed(() => {
+      return filterProducts(products.value, selectedCategory.value, sortOrder.value);
+    });
+
+    const fetchProducts = async () => {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 2000));
         const response = await fetch('https://fakestoreapi.com/products');
         const data = await response.json();
-        this.products = data;
-        this.updateFilteredProducts(); // Update filteredProducts after fetching
+        products.value = data;
       } catch (error) {
         console.error(error);
       } finally {
-        this.loading = false;
+        loading.value = false;
       }
-    },
-    async fetchCategories() {
-      this.categories = await fetchCategories();
-    },
-    handleCategoryChange(event) {
-      this.selectedCategory = event.target.value;
-      this.updateFilteredProducts();
-    },
-    handleSortChange(event) {
-      this.sortOrder = event.target.value;
-      this.updateFilteredProducts();
-    },
-    updateFilteredProducts() {
-      this.filteredProducts = filterProducts(this.products, this.selectedCategory, this.sortOrder);
-    }
-  },
-  watch: {
-    products: {
-      immediate: true,
-      handler(newProducts) {
-        this.updateFilteredProducts();
-      }
-    }
+    };
+
+    const fetchCategoriesData = async () => {
+      categories.value = await fetchCategories();
+    };
+
+    const handleCategoryChange = () => {
+      router.push({ query: { ...route.query, category: selectedCategory.value } });
+    };
+
+    const handleSortChange = () => {
+      router.push({ query: { ...route.query, sort: sortOrder.value } });
+    };
+
+    onMounted(async () => {
+      await fetchCategoriesData();
+      await fetchProducts();
+    });
+
+    watch(() => route.query, (newQuery) => {
+      selectedCategory.value = newQuery.category || '';
+      sortOrder.value = newQuery.sort || '';
+    }, { immediate: true });
+
+    return {
+      loading,
+      products,
+      categories,
+      selectedCategory,
+      sortOrder,
+      filteredProducts,
+      handleCategoryChange,
+      handleSortChange
+    };
   }
 };
 </script>
