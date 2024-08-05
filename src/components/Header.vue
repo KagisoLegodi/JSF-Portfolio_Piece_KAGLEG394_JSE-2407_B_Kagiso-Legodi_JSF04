@@ -85,16 +85,21 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
-  data() {
-    return {
-      showNavbar: false
+  name: 'Header',
+  setup() {
+    const showNavbar = ref(false);
+
+    const toggleNavbar = () => {
+      showNavbar.value = !showNavbar.value;
     };
-  },
-  methods: {
-    toggleNavbar() {
-      this.showNavbar = !this.showNavbar;
-    }
+
+    return {
+      showNavbar,
+      toggleNavbar
+    };
   }
 };
 </script>
