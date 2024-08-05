@@ -8,12 +8,12 @@
       </div>
 
       <div v-if="loading">
-        <product-skeleton v-for="n in 3" :key="n" />
+        <ProductSkeleton v-for="n in 3" :key="n" />
       </div>
 
       <div v-else class="product-list">
         <div v-for="product in filteredProducts" :key="product.id" class="product-card">
-          <router-link :to="'/product/' + product.id">
+          <router-link :to="{ path: `/product/${product.id}`, query: $route.query }">
             <img :src="product.image" :alt="product.title" class="product-image" />
             <h3 class="title">{{ product.title }}</h3>
             <p class="price">${{ product.price }}</p>
