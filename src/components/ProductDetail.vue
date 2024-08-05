@@ -1,31 +1,48 @@
 <template>
-  <div v-if="product" class="product-detail">
-    <img :src="product.image" :alt="product.title" class="product-image" />
-    <div class="product-info">
-      <h2>{{ product.title }}</h2>
-      <p>{{ product.description }}</p>
-      <p class="price">${{ product.price }}</p>
-      <p>Category: {{ product.category }}</p>
-      <p>
-        Ratings: {{ product.rating.rate }} (Based on {{ product.rating.count }} reviews)
-      </p>
-      <button @click="goBack" class="back-button">Go Back to Product List</button>
+  <div>
+    <div v-if="loading">
+      <CardSkeleton />
+    </div>
+    <div v-else-if="product" class="product-detail">
+      <img :src="product.image" :alt="product.title" class="product-image" />
+      <div class="product-info">
+        <h2>{{ product.title }}</h2>
+        <p>{{ product.description }}</p>
+        <p class="price">${{ product.price }}</p>
+        <p>Category: {{ product.category }}</p>
+        <p>
+          Ratings: {{ product.rating.rate }} (Based on {{ product.rating.count }} reviews)
+        </p>
+        <button @click="goBack" class="back-button">Go Back to Product List</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import CardSkeleton from './CardSkeleton.vue';
+
 export default {
   name: "ProductDetail",
+  components: {
+    CardSkeleton
+  },
   data() {
     return {
       product: null,
+      loading: true,
     };
   },
   async mounted() {
     const id = this.$route.params.id;
-    const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-    this.product = await res.json();
+    try {
+      const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+      this.product = await res.json();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.loading = false;
+    }
   },
   methods: {
     goBack() {

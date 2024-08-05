@@ -44,7 +44,7 @@ import { filterProducts, fetchCategories } from '../productUtils';
 export default {
   name: 'ProductList',
   components: {
-    HeaderComponent,
+    
     ProductSkeleton,
   },
   data() {
