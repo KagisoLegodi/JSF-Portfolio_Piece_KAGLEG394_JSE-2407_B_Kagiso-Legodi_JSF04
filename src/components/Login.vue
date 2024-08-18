@@ -48,3 +48,19 @@
     </div>
   </div>
 </template>
+
+<script>
+import { ref } from 'vue';
+
+export default {
+    setup() {
+        const username = ref('');
+        const password = ref('');
+        const showPassword =  ref(false);
+        const errorMessage = ref('');
+        const loading = ref(false);
+
+
+    }
+}
+</script>
