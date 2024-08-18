@@ -60,7 +60,15 @@ export default {
         const errorMessage = ref('');
         const loading = ref(false);
 
+        const handleLogin = async () => {
+            if (!username.value || !password.value) {
+                errorMessage.value = 'Username nad password are required';
+                return;
+            }
 
+            errorMessage.value = '';
+            loading.value = true;
+        }
     }
 }
 </script>
