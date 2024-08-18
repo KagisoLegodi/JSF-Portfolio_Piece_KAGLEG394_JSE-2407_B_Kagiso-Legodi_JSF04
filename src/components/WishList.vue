@@ -16,9 +16,9 @@
           alt="Product Image"
           class="w-full h-40 object-contain rounded-t-lg"
         />
-        <h2 class="text-xl font-semibold mt-2">{{ item.name }}</h2>
+        <h2 class="text-xl font-semibold mt-2">{{ item.title }}</h2>
         <p class="text-gray-700 mt-1">{{ item.description }}</p>
-        <p class="text-lg font-bold mt-2">{{ item.price.toFixed(2) }}</p>
+        <p class="text-lg font-bold mt-2 text-green-500"> ${{ item.price.toFixed(2) }}</p>
 
         <div class="flex mt-4 gap-2">
           <button @click="removeFromWishlist(item.id)" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">

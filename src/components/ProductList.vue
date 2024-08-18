@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container mx-auto p-4">
-      <h1 class="text-2xl font-bold mb-4 text-center animate-bounce">Swifty</h1>
+      <h1 class="text-2xl font-bold mb-4 text-center animate-bounce text-white">Swifty</h1>
 
       <div class="filters">
         <Filter
