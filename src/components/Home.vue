@@ -43,7 +43,7 @@ export default {
     const router = useRouter();
 
     const navigateToProductList = () => {
-      router.push("/product-list");
+      router.push("/products");
     };
 
     return {
