@@ -97,3 +97,101 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f3f4f6; /* Light gray background */
+}
+
+.login-box {
+  background: #ffffff; /* White background */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333; /* Dark gray for the title */
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.password-input {
+  display: flex;
+  align-items: center;
+}
+
+.password-input input {
+  flex: 1;
+}
+
+.toggle-password-btn {
+  background: transparent;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.submit-btn {
+  background: #007bff;
+  color: #ffffff;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:disabled {
+  background: #d6d6d6;
+  cursor: not-allowed;
+}
+
+.submit-btn:not(:disabled):hover {
+  background: #0056b3;
+}
+
+.error-message {
+  color: #dc3545; /* Bootstrap's danger color for errors */
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+.loading-message {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #007bff;
+}
+</style>
