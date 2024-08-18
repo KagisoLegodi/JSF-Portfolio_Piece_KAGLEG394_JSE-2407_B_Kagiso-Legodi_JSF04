@@ -71,3 +71,40 @@
         </button>
       </div>
 </template>
+
+<script setup>
+import { computed } from "vue";
+import { useCartStore } from "../stores/cartStore";
+import { useComparisonStore } from "../stores/comparisionStore";
+import { useRouter } from "vue-router";
+
+const cartStore = useCartStore();
+const comparisonStore = useComparisonStore();
+const router = useRouter();
+
+const cartItems = computed(() => cartStore.cartItems);
+const cartTotal = computed(() => cartStore.cartTotal);
+const cartItemCount = computed(() => cartStore.cartItemCount);
+
+const updateQuantity = (productId, newQuantity) => {
+  if (newQuantity > 0) {
+    cartStore.updateCartItemQuantity({ productId, quantity: newQuantity });
+  }
+};
+
+const removeFromCart = (productId) => {
+  cartStore.removeFromCart(productId);
+};
+
+const clearCart = () => {
+  cartStore.clearCart();
+};
+
+const addToComparison = (item) => {
+  comparisonStore.addToComparison(item);
+};
+
+const goBackToProducts = () => {
+  router.push("/");
+};
+</script>
