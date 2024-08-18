@@ -18,10 +18,15 @@
         />
         <h2 class="text-xl font-semibold mt-2">{{ item.title }}</h2>
         <p class="text-gray-700 mt-1">{{ item.description }}</p>
-        <p class="text-lg font-bold mt-2 text-green-500"> ${{ item.price.toFixed(2) }}</p>
+        <p class="text-lg font-bold mt-2 text-green-500">
+          ${{ item.price.toFixed(2) }}
+        </p>
 
         <div class="flex mt-4 gap-2">
-          <button @click="removeFromWishlist(item.id)" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">
+          <button
+            @click="removeFromWishlist(item.id)"
+            class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+          >
             <font-awesome-icon :icon="['fas', 'trash']" class="text-white" />
           </button>
           <button
@@ -43,48 +48,49 @@
   >
     Clear Wishlist
   </button>
+  <button @click="goBack" class="back-button">Go Back to Product List</button>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router"; // Import useRouter and useRoute
 import { useCartStore } from "../stores/cartStore";
 import { useWishlistStore } from "../stores/wishlistStore";
 
 export default {
   setup() {
-    // Initialize stores inside setup
     const cartStore = useCartStore();
     const wishlistStore = useWishlistStore();
-
-    // Reactive wishlist state
     const wishlist = ref([]);
+    const router = useRouter(); // Initialize router
+    const route = useRoute(); // Initialize route
 
     // Fetch wishlist from local storage
     const fetchWishlist = () => {
       wishlist.value = JSON.parse(localStorage.getItem("wishlist")) || [];
     };
 
-    // Remove item from wishlist
     const removeFromWishlist = (id) => {
       wishlist.value = wishlist.value.filter((item) => item.id !== id);
       localStorage.setItem("wishlist", JSON.stringify(wishlist.value));
       wishlistStore.removeItem(id);
     };
 
-    // Add item to cart and remove from wishlist
     const addToCart = (item) => {
       cartStore.addItem(item);
       removeFromWishlist(item.id);
     };
 
-    // Clear the entire wishlist
     const clearWishlist = () => {
       wishlist.value = [];
       localStorage.removeItem("wishlist");
       wishlistStore.clearWishlist();
     };
 
-    // Fetch wishlist on component mount
+    const goBack = () => {
+      router.push({ path: "/products", query: route.query });
+    };
+
     onMounted(fetchWishlist);
 
     return {
@@ -92,6 +98,7 @@ export default {
       removeFromWishlist,
       addToCart,
       clearWishlist,
+      goBack,
     };
   },
 };
