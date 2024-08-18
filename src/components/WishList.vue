@@ -21,11 +21,21 @@
         <p class="text-lg font-bold mt-2">{{ item.price.toFixed(2) }}</p>
 
         <div class="flex mt-4 gap-2">
+          <button @click="removeFromWishlist(item.id)" class="bg-red-500 hover">
+            <font-awesome-icon 
+            :icon="['fas', 'trash']" 
+            class="text-white"
+             />
+          </button>
           <button
-            @click="removeFromWishlist(item.id)"
-            class="bg-red-500 hover"
-          ></button>
-          
+            @click="addToCart(item)"
+            class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'shopping-cart']"
+              class="text-white"
+            />
+          </button>
         </div>
       </div>
     </div>
