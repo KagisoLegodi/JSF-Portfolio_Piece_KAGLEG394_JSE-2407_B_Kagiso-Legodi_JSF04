@@ -79,6 +79,10 @@ export default {
             } finally {
                 loading.value = false;
             }
-    }
+        };
+
+        const togglePasswordVisibility = () => {
+            showPassword.value = !showPassword.value;
+        };
 }
 </script>
