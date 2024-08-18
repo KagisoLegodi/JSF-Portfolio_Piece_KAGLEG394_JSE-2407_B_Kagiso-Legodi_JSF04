@@ -23,13 +23,13 @@
               placeholder="Enter your password"
               required
             />
-            <botton
+            <button
               type="button"
               class="toggle-password-btn"
               @click="togglePasswordVisibility"
             >
               {{ showPassword ? "Hide" : "Show" }}
-            </botton>
+            </button>
           </div>
         </div>
         <div v-if="errorMessage" class="error-message">{{ errorMessgae }}</div>
