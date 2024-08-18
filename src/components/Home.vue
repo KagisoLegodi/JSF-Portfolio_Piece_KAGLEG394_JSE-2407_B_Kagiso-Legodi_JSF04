@@ -12,10 +12,21 @@
 
     <!-- Carousel of discounted products -->
     <Carousel v-else :items="discountedProducts" />
+
+    <!-- Navigate to Product List Page Button -->
+    <div class="text-center mt-8">
+      <button
+        @click="navigateToProductList"
+        class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+      >
+        View All Products
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 import Carousel from "./Carousel.vue"; // Import your carousel component
 
 export default {
@@ -26,6 +37,17 @@ export default {
       discountedProducts: [], // Products with discounts applied
       loading: true, // Loading state
       error: null, // Error state
+    };
+  },
+  setup() {
+    const router = useRouter();
+
+    const navigateToProductList = () => {
+      router.push("/product-list");
+    };
+
+    return {
+      navigateToProductList,
     };
   },
   async created() {
