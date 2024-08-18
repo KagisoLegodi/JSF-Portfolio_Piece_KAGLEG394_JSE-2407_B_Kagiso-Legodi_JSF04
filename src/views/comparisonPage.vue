@@ -6,6 +6,7 @@
     >
       Clear Comparison List
     </button>
+
     <div v-if="comparisonItems.length">
       <table class="w-full border-collapse mt-4">
         <thead>
@@ -39,21 +40,30 @@
         </tbody>
       </table>
     </div>
+
     <div v-else class="text-center text-gray-500 mt-4">
       No items to compare.
     </div>
+
+    <button
+      @click="goBack"
+      class="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+    >
+      Go Back to Product List
+    </button>
   </div>
 </template>
 
 <script>
 import { computed } from "vue";
+import { useRouter } from "vue-router"; // Import useRouter
 import { useComparisonStore } from "../stores/comparisionStore";
 
 export default {
   setup() {
     const comparisonStore = useComparisonStore();
-
     const comparisonItems = computed(() => comparisonStore.comparisonItems);
+    const router = useRouter(); // Initialize the router
 
     const removeFromComparison = (productId) => {
       comparisonStore.removeFromComparison(productId);
@@ -63,10 +73,15 @@ export default {
       comparisonStore.clearComparison();
     };
 
+    const goBack = () => {
+      router.push({ path: "/products" }); // Navigate back to product list
+    };
+
     return {
       comparisonItems,
       removeFromComparison,
       clearComparison,
+      goBack, // Return goBack method
     };
   },
 };
