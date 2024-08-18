@@ -40,4 +40,10 @@
       </div>
     </div>
   </div>
+  <button
+      @click="clearWishlist"
+      class="mt-6 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+    >
+      Clear Wishlist
+    </button>
 </template>
