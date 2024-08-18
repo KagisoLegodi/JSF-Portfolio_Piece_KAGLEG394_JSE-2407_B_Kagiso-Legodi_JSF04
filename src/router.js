@@ -6,9 +6,12 @@ import Cart from './components/Cart.vue';
 import WishList from './components/WishList.vue';
 import ComparisonPage from './views/comparisonPage.vue'; // Import the ComparisonPage component
 import { useLoginStore } from './stores/loginStore';
+import Home from './components/Home.vue';
 
 const routes = [
-  { path: '/', name: 'ProductList', component: ProductList },
+  { path: '/', name: 'Home', component: Home},
+
+  { path: '/products', name: 'ProductList', component: ProductList },
   {
     path: '/product/:id',
     name: 'ProductDetail',

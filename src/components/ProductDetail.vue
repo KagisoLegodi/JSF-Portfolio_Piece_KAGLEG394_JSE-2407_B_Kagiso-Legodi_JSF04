@@ -53,7 +53,7 @@ export default {
     };
 
     const goBack = () => {
-      router.push({ path: "/", query: route.query });
+      router.push({ path: "/products", query: route.query });
     };
 
     onMounted(fetchProduct);
