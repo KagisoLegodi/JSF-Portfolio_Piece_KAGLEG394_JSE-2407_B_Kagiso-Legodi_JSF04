@@ -22,10 +22,7 @@
 
         <div class="flex mt-4 gap-2">
           <button @click="removeFromWishlist(item.id)" class="bg-red-500 hover">
-            <font-awesome-icon 
-            :icon="['fas', 'trash']" 
-            class="text-white"
-             />
+            <font-awesome-icon :icon="['fas', 'trash']" class="text-white" />
           </button>
           <button
             @click="addToCart(item)"
@@ -41,18 +38,29 @@
     </div>
   </div>
   <button
-      @click="clearWishlist"
-      class="mt-6 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
-    >
-      Clear Wishlist
-    </button>
+    @click="clearWishlist"
+    class="mt-6 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+  >
+    Clear Wishlist
+  </button>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
+import { useCartStore } from "@/stores/cartStore";
+import { useWishlistStore } from "@/stores/wishlistStore";
+import { fetchModule } from "vite";
+
+//Wishlist store
+const wishlistStore = useWishlistStore();
+//Cart store
+const cartStore = useCartStore();
 
 const wishlist = ref([]);
 
-onMounted(fetchWishlist);
+const fetchWishlist = () => {
+  wishlist.value = JSON.parse(localStorage.getItem("wishlist")) || [];
+};
 
+onMounted(fetchWishlist);
 </script>
