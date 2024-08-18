@@ -63,4 +63,11 @@
         </div>
       </div>
   </div>
+
+   <!-- Go Back to Products Button -->
+   <div class="mt-8 text-center">
+        <button @click="goBackToProducts" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors">
+          Go Back to Products
+        </button>
+      </div>
 </template>
