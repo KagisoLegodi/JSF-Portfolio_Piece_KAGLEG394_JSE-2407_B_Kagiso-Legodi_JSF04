@@ -1,33 +1,13 @@
 <template>
   <div class="p-4 max-w-2xl mx-auto">
     <h1 class="text-2xl font-bold mb-4">Your Wishlist</h1>
-
-    <!-- Sorting and Filtering -->
-    <div class="mb-4 flex justify-between items-center">
-      <select
-        v-model="sortOption"
-        @change="sortWishlist"
-        class="border rounded p-2"
-      >
-        <option value="name">Sort by Name</option>
-        <option value="price">Sort by Price</option>
-      </select>
-      <input
-        v-model="filterQuery"
-        @input="filterWishlist"
-        type="text"
-        placeholder="Search..."
-        class="border rounded p-2"
-      />
-    </div>
-
     <div v-if="wishlist.length === 0" class="text-center text-gray-500">
       <p>Your wishlist is empty. Start adding products you like!</p>
     </div>
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <div
-        v-for="item in filteredWishlist"
+        v-for="item in wishlist"
         :key="item.id"
         class="bg-white p-4 rounded-lg shadow-md"
       >
@@ -41,91 +21,70 @@
         <p class="text-lg font-bold mt-2">{{ item.price.toFixed(2) }}</p>
 
         <div class="flex mt-4 gap-2">
-          <button
-            @click="removeFromWishlist(item.id)"
-            class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg"
-          >
-            <font-awesome-icon :icon="['fas', 'trash']" />
+          <button @click="removeFromWishlist(item.id)" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">
+            <font-awesome-icon :icon="['fas', 'trash']" class="text-white" />
           </button>
           <button
             @click="addToCart(item)"
-            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+            class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
           >
-            <font-awesome-icon :icon="['fas', 'shopping-cart']" />
+            <font-awesome-icon
+              :icon="['fas', 'shopping-cart']"
+              class="text-white"
+            />
           </button>
-          <router-link
-            :to="`/product/${item.id}`"
-            class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg"
-          >
-            View Details
-          </router-link>
         </div>
       </div>
     </div>
-    <button
-      @click="clearWishlist"
-      class="mt-6 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg"
-    >
-      Clear Wishlist
-    </button>
   </div>
+  <button
+    @click="clearWishlist"
+    class="mt-6 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+  >
+    Clear Wishlist
+  </button>
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useCartStore } from "../stores/cartStore";
 import { useWishlistStore } from "../stores/wishlistStore";
 
 export default {
   setup() {
+    // Initialize stores inside setup
     const cartStore = useCartStore();
     const wishlistStore = useWishlistStore();
 
+    // Reactive wishlist state
     const wishlist = ref([]);
-    const filterQuery = ref("");
-    const sortOption = ref("name");
 
+    // Fetch wishlist from local storage
     const fetchWishlist = () => {
       wishlist.value = JSON.parse(localStorage.getItem("wishlist")) || [];
     };
 
+    // Remove item from wishlist
     const removeFromWishlist = (id) => {
       wishlist.value = wishlist.value.filter((item) => item.id !== id);
       localStorage.setItem("wishlist", JSON.stringify(wishlist.value));
       wishlistStore.removeItem(id);
     };
 
+    // Add item to cart and remove from wishlist
     const addToCart = (item) => {
       cartStore.addItem(item);
       removeFromWishlist(item.id);
     };
 
+    // Clear the entire wishlist
     const clearWishlist = () => {
       wishlist.value = [];
       localStorage.removeItem("wishlist");
       wishlistStore.clearWishlist();
     };
 
-    const filteredWishlist = computed(() => {
-      let filtered = wishlist.value.filter((item) =>
-        item.name.toLowerCase().includes(filterQuery.value.toLowerCase())
-      );
-      if (sortOption.value === "price") {
-        filtered = filtered.sort((a, b) => a.price - b.price);
-      } else {
-        filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
-      }
-      return filtered;
-    });
-
-    const sortWishlist = () => {
-      // Sorting is handled in computed property
-    };
-
-    const filterWishlist = () => {
-      // Filtering is handled in computed property
-    };
-
+    // Fetch wishlist on component mount
     onMounted(fetchWishlist);
 
     return {
@@ -133,16 +92,7 @@ export default {
       removeFromWishlist,
       addToCart,
       clearWishlist,
-      filteredWishlist,
-      filterQuery,
-      sortOption,
-      sortWishlist,
-      filterWishlist,
     };
   },
 };
 </script>
-
-<style scoped>
-/* Add your scoped styles here */
-</style>
