@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-box">
       <h2 class="title">Login</h2>
-      <form @submit.prevent="handlelogin" class="form">
+      <form @submit.prevent="handleLogin" class="form">
         <div class="form-group">
           <label for="username">Username:</label>
           <input
@@ -19,6 +19,7 @@
           <div class="password-input">
             <input
               :type="showPassword ? 'text' : 'password'"
+              id="password"
               v-model="password"
               placeholder="Enter your password"
               required
@@ -32,7 +33,8 @@
             </button>
           </div>
         </div>
-        <div v-if="errorMessage" class="error-message">{{ errorMessgae }}</div>
+
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
         <div v-if="loading" class="loading-message">
           Logging in, please wait...
         </div>
@@ -51,6 +53,8 @@
 
 <script>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useLoginStore } from "../stores/loginStore"; // Ensure the correct path
 
 export default {
   setup() {
@@ -59,18 +63,20 @@ export default {
     const showPassword = ref(false);
     const errorMessage = ref("");
     const loading = ref(false);
+    const router = useRouter();
+    const loginStore = useLoginStore();
 
     const handleLogin = async () => {
       if (!username.value || !password.value) {
-        errorMessage.value = "Username nad password are required";
+        errorMessage.value = "Username and password are required";
         return;
       }
 
-      errorMessage.value = "";
+      errorMessage.value = ""; // Clear previous errors
       loading.value = true;
 
       try {
-        await useLoginStore.login(username.value, password.value);
+        await loginStore.login(username.value, password.value);
         const redirectPath = router.currentRoute.value.query.redirect || "/";
         router.push(redirectPath);
       } catch (error) {
