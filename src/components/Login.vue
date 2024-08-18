@@ -84,5 +84,16 @@ export default {
         const togglePasswordVisibility = () => {
             showPassword.value = !showPassword.value;
         };
-}
+
+        return {
+            username,
+            password,
+            showPassword,
+            errorMessage,
+            loading,
+            handleLogin,
+            togglePasswordVisibility
+        };
+    }
+};
 </script>
