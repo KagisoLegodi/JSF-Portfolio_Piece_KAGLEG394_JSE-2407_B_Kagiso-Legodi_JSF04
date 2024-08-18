@@ -62,5 +62,16 @@ const fetchWishlist = () => {
   wishlist.value = JSON.parse(localStorage.getItem("wishlist")) || [];
 };
 
+const removeFromWishlist = (id) => {
+    wishlist.value = wishlist.value.filter((item) => item.id !== id);
+    localStorage.setItem("wishlist", JSON.stringify(wishlist.value));
+    wishlistStore.removeItem(id);
+};
+
+const addToCart = (item) => {
+    cartStore.addItem(item);
+    removeFromWishlist(item.id);
+};
+
 onMounted(fetchWishlist);
 </script>
