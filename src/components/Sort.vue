@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 
 export default {
   name: "Sort",
@@ -23,10 +23,6 @@ export default {
     const handleSortChange = () => {
       emit("update:sort", sortOrder.value);
     };
-
-    watch(sortOrder, () => {
-      handleSortChange();
-    });
 
     return {
       sortOrder,
