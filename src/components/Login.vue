@@ -68,7 +68,17 @@ export default {
 
             errorMessage.value = '';
             loading.value = true;
-        }
+
+            try {
+                await useLoginStore.login(username.value, password.value);
+                const redirectPath = router.currentRoute.value.query.redirect ||'/';
+                router.push(redirectPath);
+            }
+            catch (error) {
+                errorMessage.value = 'Login failed. Please try again.';
+            } finally {
+                loading.value = false;
+            }
     }
 }
 </script>
