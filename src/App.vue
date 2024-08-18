@@ -8,7 +8,9 @@
 </template>
 
 <script>
+// @ts-ignore
 import { defineComponent, ref, onMounted } from "vue";
+// @ts-ignore
 import Header from "./components/Header.vue";
 
 /**

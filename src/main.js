@@ -19,4 +19,4 @@ const app = createApp(App);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 // Use Pinia and Vue Router
-app.use(router).use(pinia).mount("#app");
+app.use(pinia).use(router).mount("#app");

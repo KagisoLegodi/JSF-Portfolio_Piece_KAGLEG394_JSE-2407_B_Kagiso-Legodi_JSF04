@@ -47,30 +47,52 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { useCartStore } from "..cartStore";
-import { useWishlistStore } from "..wishlistStore";
+import { useCartStore } from "../stores/cartStore";
+import { useWishlistStore } from "../stores/wishlistStore";
 
-//Wishlist store
-const wishlistStore = useWishlistStore();
-//Cart store
-const cartStore = useCartStore();
+export default {
+  setup() {
+    // Initialize stores inside setup
+    const cartStore = useCartStore();
+    const wishlistStore = useWishlistStore();
 
-const wishlist = ref([]);
+    // Reactive wishlist state
+    const wishlist = ref([]);
 
-const fetchWishlist = () => {
-  wishlist.value = JSON.parse(localStorage.getItem("wishlist")) || [];
+    // Fetch wishlist from local storage
+    const fetchWishlist = () => {
+      wishlist.value = JSON.parse(localStorage.getItem("wishlist")) || [];
+    };
+
+    // Remove item from wishlist
+    const removeFromWishlist = (id) => {
+      wishlist.value = wishlist.value.filter((item) => item.id !== id);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist.value));
+      wishlistStore.removeItem(id);
+    };
+
+    // Add item to cart and remove from wishlist
+    const addToCart = (item) => {
+      cartStore.addItem(item);
+      removeFromWishlist(item.id);
+    };
+
+    // Clear the entire wishlist
+    const clearWishlist = () => {
+      wishlist.value = [];
+      localStorage.removeItem("wishlist");
+      wishlistStore.clearWishlist();
+    };
+
+    // Fetch wishlist on component mount
+    onMounted(fetchWishlist);
+
+    return {
+      wishlist,
+      removeFromWishlist,
+      addToCart,
+      clearWishlist,
+    };
+  },
 };
-
-const removeFromWishlist = (id) => {
-    wishlist.value = wishlist.value.filter((item) => item.id !== id);
-    localStorage.setItem("wishlist", JSON.stringify(wishlist.value));
-    wishlistStore.removeItem(id);
-};
-
-const addToCart = (item) => {
-    cartStore.addItem(item);
-    removeFromWishlist(item.id);
-};
-
-onMounted(fetchWishlist);
 </script>
