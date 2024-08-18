@@ -33,16 +33,17 @@
           </div>
         </div>
         <div v-if="errorMessage" class="error-message">{{ errorMessgae }}</div>
-        <div v-if="loading" class="loading-message">Logging in, please wait...</div>
+        <div v-if="loading" class="loading-message">
+          Logging in, please wait...
+        </div>
 
         <button
-        type="submit"
-        class="submit-btn"
-        :disabled="loading || !username || !password"
+          type="submit"
+          class="submit-btn"
+          :disabled="loading || !username || !password"
         >
-        {{ loading ? 'Logging in...' : 'Login' }}
-    </button>
-
+          {{ loading ? "Logging in..." : "Login" }}
+        </button>
       </form>
     </div>
   </div>
