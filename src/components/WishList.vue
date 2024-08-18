@@ -49,7 +49,6 @@
 import { ref, onMounted } from "vue";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
-import { fetchModule } from "vite";
 
 //Wishlist store
 const wishlistStore = useWishlistStore();
