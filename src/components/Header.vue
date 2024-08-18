@@ -4,40 +4,41 @@
       <div
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
       >
-        <router-link to="/#">
-          <div class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="/online-shop.png" class="h-8" alt="SwiftCart Logo" />
-            <span
-              class="self-center text-2xl font-semibold whitespace-nowrap text-white"
-              >SwiftCart</span
-            >
-          </div>
-        </router-link>
-        <button
-          @click="toggleNavbar"
-          type="button"
-          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-          aria-controls="navbar-dropdown"
-          :aria-expanded="showNavbar"
-        >
-          <span class="sr-only">Open main menu</span>
-          <svg
-            class="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
+        <div>
+          <router-link to="/#">
+            <div class="flex items-center space-x-3 rtl:space-x-reverse">
+              <img src="/online-shop.png" class="h-8" alt="SwiftCart Logo" />
+              <span
+                class="self-center text-2xl font-semibold whitespace-nowrap text-white"
+                >Swifty</span
+              >
+            </div>
+          </router-link>
+          <button
+            @click="toggleNavbar"
+            type="button"
+            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            aria-controls="navbar-dropdown"
+            :aria-expanded="showNavbar.toString()"
+            aria-label="Toggle navigation"
           >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
-          </svg>
-        </button>
-
+            <svg
+              class="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 1h15M1 7h15M1 13h15"
+              />
+            </svg>
+          </button>
+        </div>
         <div
           :class="['w-full md:block md:w-auto', { hidden: !showNavbar }]"
           id="navbar-dropdown"
@@ -47,8 +48,18 @@
           >
             <li>
               <router-link
+                to="/comparison"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
+                aria-label="comparison"
+              >
+                <div>Comparison</div>
+              </router-link>
+            </li>
+            <li>
+              <router-link
                 to="/wishlist"
-                class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
+                aria-label="Wishlist"
               >
                 Wishlist
               </router-link>
@@ -58,10 +69,14 @@
                 <p
                   class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white"
                 >
-                  2
+                  {{ cartItemCount }}
                 </p>
               </div>
-              <router-link to="/cart" class="text-white hover:bg-gray-700">
+              <router-link
+                to="/cart"
+                class="text-white hover:bg-gray-700"
+                aria-label="Cart"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -81,18 +96,35 @@
             <li class="lg:hidden md:hidden">
               <router-link
                 to="/cart"
-                class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
+                aria-label="Cart"
               >
                 Cart
+                <span
+                  v-if="cartItemCount"
+                  class="absolute top-0 right-0 inline-block px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full"
+                >
+                  {{ cartItemCount }}
+                </span>
               </router-link>
             </li>
             <li>
               <router-link
+                v-if="!isAuthenticated"
                 to="/login"
-                class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
+                aria-label="Login"
               >
                 Login
               </router-link>
+              <a
+                v-else
+                @click="handleLogout"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
+                aria-label="Logout"
+              >
+                Logout
+              </a>
             </li>
           </ul>
         </div>
@@ -102,20 +134,43 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useLoginStore } from "../stores/loginStore";
+import { useCartStore } from "../stores/cartStore";
 
 export default {
   name: "Header",
   setup() {
     const showNavbar = ref(false);
+    const router = useRouter();
+    const loginStore = useLoginStore();
+    const cartStore = useCartStore();
 
     const toggleNavbar = () => {
       showNavbar.value = !showNavbar.value;
     };
 
+    const isAuthenticated = computed(() => loginStore.isAuthenticated);
+
+    const handleLogout = async () => {
+      try {
+        await loginStore.logout();
+        router.push("/");
+      } catch (error) {
+        console.error("Logout failed:", error);
+        // Handle logout error (e.g., show a notification to the user)
+      }
+    };
+
+    const cartItemCount = computed(() => cartStore.cartItemCount);
+
     return {
       showNavbar,
       toggleNavbar,
+      cartItemCount,
+      isAuthenticated,
+      handleLogout,
     };
   },
 };
