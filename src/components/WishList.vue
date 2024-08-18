@@ -47,8 +47,8 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { useCartStore } from "@/stores/cartStore";
-import { useWishlistStore } from "@/stores/wishlistStore";
+import { useCartStore } from "..cartStore";
+import { useWishlistStore } from "..wishlistStore";
 
 //Wishlist store
 const wishlistStore = useWishlistStore();
