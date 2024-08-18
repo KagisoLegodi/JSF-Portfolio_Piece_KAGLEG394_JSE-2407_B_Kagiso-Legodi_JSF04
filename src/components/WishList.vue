@@ -16,6 +16,9 @@
             alt="Product Image"
             class="w-full h-40 object-contain rounded-t-lg"
             />
+            <h2 class="text-xl font-semibold mt-2">{{ item.name }}</h2>
+            <p class="text-gray-700 mt-1">{{ item.description }}</p>
+            <p class="text-lg font-bold mt-2">{{ item.price.toFixed(2) }}</p>
 
             </div>
 
