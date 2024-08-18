@@ -50,51 +50,50 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 export default {
-    setup() {
-        const username = ref('');
-        const password = ref('');
-        const showPassword =  ref(false);
-        const errorMessage = ref('');
-        const loading = ref(false);
+  setup() {
+    const username = ref("");
+    const password = ref("");
+    const showPassword = ref(false);
+    const errorMessage = ref("");
+    const loading = ref(false);
 
-        const handleLogin = async () => {
-            if (!username.value || !password.value) {
-                errorMessage.value = 'Username nad password are required';
-                return;
-            }
+    const handleLogin = async () => {
+      if (!username.value || !password.value) {
+        errorMessage.value = "Username nad password are required";
+        return;
+      }
 
-            errorMessage.value = '';
-            loading.value = true;
+      errorMessage.value = "";
+      loading.value = true;
 
-            try {
-                await useLoginStore.login(username.value, password.value);
-                const redirectPath = router.currentRoute.value.query.redirect ||'/';
-                router.push(redirectPath);
-            }
-            catch (error) {
-                errorMessage.value = 'Login failed. Please try again.';
-            } finally {
-                loading.value = false;
-            }
-        };
+      try {
+        await useLoginStore.login(username.value, password.value);
+        const redirectPath = router.currentRoute.value.query.redirect || "/";
+        router.push(redirectPath);
+      } catch (error) {
+        errorMessage.value = "Login failed. Please try again.";
+      } finally {
+        loading.value = false;
+      }
+    };
 
-        const togglePasswordVisibility = () => {
-            showPassword.value = !showPassword.value;
-        };
+    const togglePasswordVisibility = () => {
+      showPassword.value = !showPassword.value;
+    };
 
-        return {
-            username,
-            password,
-            showPassword,
-            errorMessage,
-            loading,
-            handleLogin,
-            togglePasswordVisibility
-        };
-    }
+    return {
+      username,
+      password,
+      showPassword,
+      errorMessage,
+      loading,
+      handleLogin,
+      togglePasswordVisibility,
+    };
+  },
 };
 </script>
 
