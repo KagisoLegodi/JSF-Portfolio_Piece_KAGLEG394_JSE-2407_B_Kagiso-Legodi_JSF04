@@ -57,7 +57,7 @@
 <script>
 import { computed } from "vue";
 import { useRouter } from "vue-router"; // Import useRouter
-import { useComparisonStore } from "../stores/comparisionStore";
+import { useComparisonStore } from "../stores/comparisonStore";
 
 export default {
   setup() {

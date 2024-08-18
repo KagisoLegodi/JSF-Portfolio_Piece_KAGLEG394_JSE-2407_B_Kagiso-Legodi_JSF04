@@ -19,6 +19,12 @@
           </div>
         </div>
       </div>
+      <button @click="scrollLeft" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full hover:bg-gray-800">
+        &#x276E;
+      </button>
+      <button @click="scrollRight" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full hover:bg-gray-800">
+        &#x276F;
+      </button>
     </div>
   </template>
   

@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="container mx-auto p-4">
-      <h1 class="text-2xl font-bold mb-4 text-center animate-bounce text-white">Swifty</h1>
+      <h1 class="text-2xl font-bold mb-4 text-center animate-bounce text-white">
+        Swifty
+      </h1>
 
       <div class="filters">
         <Filter
@@ -104,6 +106,16 @@
                   class="text-white"
                 />
               </button>
+              <button
+                class="text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                @click.stop="addToCompare(product)"
+                :disabled="isInComparison(product.id)"
+              >
+                <font-awesome-icon
+                  :icon="['fas', 'balance-scale']"
+                  class="text-white"
+                />
+              </button>
             </div>
           </div>
         </div>
@@ -122,6 +134,7 @@ import { filterProducts, fetchCategories } from "../productUtils";
 import { useCartStore } from "../stores/cartStore";
 import { useLoginStore } from "../stores/loginStore";
 import { useWishlistStore } from "../stores/wishlistStore";
+import { useComparisonStore } from "../stores/comparisonStore"; // Add comparison store
 
 export default {
   name: "ProductList",
@@ -138,10 +151,11 @@ export default {
     const products = ref([]);
     const categories = ref([]);
     const selectedCategory = ref(route.query.category || "");
-    const sortOrder = ref(route.query.sort || "default"); // Default to "default"
+    const sortOrder = ref(route.query.sort || "default");
     const cartStore = useCartStore();
     const loginStore = useLoginStore();
     const wishlistStore = useWishlistStore();
+    const comparisonStore = useComparisonStore(); // Use comparison store
 
     const isLoggedIn = computed(() => loginStore.isAuthenticated);
 
@@ -216,6 +230,18 @@ export default {
       return wishlistStore.isInWishlist(productId);
     };
 
+    const addToComparison = (product) => {
+      if (comparisonStore.isInComparison(product.id)) {
+        comparisonStore.removeFromComparison(product.id);
+      } else {
+        comparisonStore.addToComparison(product);
+      }
+    };
+
+    const isInComparison = (productId) => {
+      return comparisonStore.isInComparison(productId);
+    };
+
     const goToProductDetails = (productId) => {
       router.push({ name: "ProductDetail", params: { id: productId } });
     };
@@ -238,6 +264,8 @@ export default {
       isLoggedIn,
       toggleWishlist,
       isInWishlist,
+      addToComparison,
+      isInComparison,
       goToProductDetails,
     };
   },
