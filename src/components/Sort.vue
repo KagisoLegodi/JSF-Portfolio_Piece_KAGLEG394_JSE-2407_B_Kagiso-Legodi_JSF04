@@ -1,7 +1,7 @@
 <template>
   <div class="sort">
     <select @change="handleSortChange" v-model="sortOrder">
-      <option value="">Default</option>
+      <option value="default">Default</option>
       <option value="low-to-high">Price: Low to High</option>
       <option value="high-to-low">Price: High to Low</option>
     </select>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 export default {
   name: "Sort",
@@ -18,11 +18,15 @@ export default {
   },
   emits: ["update:sort"],
   setup(props, { emit }) {
-    const sortOrder = ref(props.initialSort || "");
+    const sortOrder = ref(props.initialSort || "default");
 
     const handleSortChange = () => {
       emit("update:sort", sortOrder.value);
     };
+
+    watch(sortOrder, () => {
+      handleSortChange();
+    });
 
     return {
       sortOrder,

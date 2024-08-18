@@ -120,8 +120,8 @@ import Filter from "./Filter.vue";
 import Sort from "./Sort.vue";
 import { filterProducts, fetchCategories } from "../productUtils";
 import { useCartStore } from "../stores/cartStore";
-import { useLoginStore } from "../stores/loginStore"; // Import loginStore
-import { useWishlistStore } from "../stores/wishlistStore"; // Import wishlistStore
+import { useLoginStore } from "../stores/loginStore";
+import { useWishlistStore } from "../stores/wishlistStore";
 
 export default {
   name: "ProductList",
@@ -138,12 +138,12 @@ export default {
     const products = ref([]);
     const categories = ref([]);
     const selectedCategory = ref(route.query.category || "");
-    const sortOrder = ref(route.query.sort || "");
+    const sortOrder = ref(route.query.sort || "default"); // Default to "default"
     const cartStore = useCartStore();
-    const loginStore = useLoginStore(); // Access the login store
-    const wishlistStore = useWishlistStore(); // Access the wishlist store
+    const loginStore = useLoginStore();
+    const wishlistStore = useWishlistStore();
 
-    const isLoggedIn = computed(() => loginStore.isAuthenticated); // Check if user is logged in
+    const isLoggedIn = computed(() => loginStore.isAuthenticated);
 
     const filteredProducts = computed(() => {
       return filterProducts(
@@ -195,10 +195,8 @@ export default {
 
       cartStore.addToCart(cartItem);
 
-      // Set a temporary flag to show the product was added
       product.addedToCart = true;
 
-      // Reset the flag after 1 seconds
       setTimeout(() => {
         product.addedToCart = false;
       }, 1000);
@@ -237,10 +235,10 @@ export default {
       handleCategoryChange,
       handleSortChange,
       addToCart,
-      isLoggedIn, // Return this for template use
+      isLoggedIn,
       toggleWishlist,
       isInWishlist,
-      goToProductDetails, // Return this for template use
+      goToProductDetails,
     };
   },
 };
