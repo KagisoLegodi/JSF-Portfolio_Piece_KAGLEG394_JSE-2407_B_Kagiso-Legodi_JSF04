@@ -1,6 +1,5 @@
 <template>
   <div class="relative overflow-hidden">
-    <!-- <h3 class="text-red-500 font-bold rounded bg-white mt-4 py-2 ">SAVE NOW!!!</h3> -->
     <div
       class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth"
       ref="carouselItems"
@@ -65,11 +64,6 @@ export default {
   props: {
     items: Array,
   },
-  data() {
-    return {
-      intervalId: null, // Store the interval ID for clearing later
-    };
-  },
   methods: {
     formatPrice(price) {
       return `$${price}`;
@@ -80,22 +74,6 @@ export default {
     scrollRight() {
       this.$refs.carouselItems.scrollBy({ left: 300, behavior: "smooth" });
     },
-    startAutoScroll() {
-      this.intervalId = setInterval(() => {
-        this.scrollRight();
-      }, 3000); // Change 3000 to the desired interval in milliseconds
-    },
-    stopAutoScroll() {
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-      }
-    },
-  },
-  mounted() {
-    this.startAutoScroll();
-  },
-  beforeDestroy() {
-    this.stopAutoScroll();
   },
 };
 </script>
