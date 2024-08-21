@@ -1,11 +1,22 @@
 <template>
   <div>
+    <!-- Clear Comparison List Button -->
     <button
       @click="clearComparison"
       class="bg-red-500 text-white px-4 py-2 rounded"
     >
       Clear Comparison List
     </button>
+
+    <!-- Go Back to Product List Button -->
+    <button
+      @click="goBack"
+      class="mt-4 bg-red-600 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400"
+    >
+      Go Back to Product List
+    </button>
+
+    <!-- Conditional Table Rendering -->
     <div v-if="comparisonItems.length">
       <table class="w-full border-collapse mt-4">
         <thead>
@@ -53,11 +64,13 @@
 
 <script>
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 import { useComparisonStore } from "../stores/comparisonStore";
 import { useCartStore } from "../stores/cartStore";
 
 export default {
   setup() {
+    const router = useRouter();
     const comparisonStore = useComparisonStore();
     const cartStore = useCartStore();
 
@@ -86,14 +99,20 @@ export default {
       console.log(`${product.title} added to cart!`);
     };
 
+    const goBack = () => {
+      console.log("Navigating to /products");
+      router.push("/products").catch((err) => {
+        console.error("Navigation error:", err);
+      });
+    };
+
     return {
       comparisonItems,
       removeFromComparison,
       clearComparison,
       addToCart,
+      goBack,
     };
   },
 };
 </script>
-
-
