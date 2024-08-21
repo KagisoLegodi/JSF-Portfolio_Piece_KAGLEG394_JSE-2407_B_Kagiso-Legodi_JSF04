@@ -45,12 +45,6 @@
               >
                 Remove
               </button>
-              <button
-                @click="addToCart(item)"
-                class="bg-blue-500 text-white px-2 py-1 rounded mt-1"
-              >
-                Add to Cart
-              </button>
             </td>
           </tr>
         </tbody>
