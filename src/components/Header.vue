@@ -47,22 +47,34 @@
           <ul
             class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0"
           >
-            <li>
+            <li class="relative">
               <router-link
                 to="/comparison"
                 class="block py-2 px-3 text-white rounded hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
                 aria-label="Comparison"
               >
                 Comparison
+                <span
+                  v-if="comparisonItemCount"
+                  class="top-0 right-0 inline-block px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full"
+                >
+                  {{ comparisonItemCount }}
+                </span>
               </router-link>
             </li>
-            <li>
+            <li class="relative">
               <router-link
                 to="/wishlist"
                 class="block py-2 px-3 text-white rounded hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
                 aria-label="Wishlist"
               >
                 Wishlist
+                <span
+                  v-if="wishlistItemCount"
+                  class="top-0 right-0 inline-block px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full"
+                >
+                  {{ wishlistItemCount }}
+                </span>
               </router-link>
             </li>
             <li class="relative hidden md:block lg:block">
@@ -139,7 +151,8 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useLoginStore } from "../stores/loginStore";
 import { useCartStore } from "../stores/cartStore";
-
+import { useWishlistStore } from "../stores/wishlistStore"; // Add this line
+import { useComparisonStore } from "../stores/comparisonStore"; // Add this line
 
 export default {
   name: "Header",
@@ -148,6 +161,8 @@ export default {
     const router = useRouter();
     const loginStore = useLoginStore();
     const cartStore = useCartStore();
+    const wishlistStore = useWishlistStore(); // Add this line
+    const comparisonStore = useComparisonStore(); // Add this line
 
     const toggleNavbar = () => {
       showNavbar.value = !showNavbar.value;
@@ -166,11 +181,17 @@ export default {
     };
 
     const cartItemCount = computed(() => cartStore.cartItemCount);
+    const wishlistItemCount = computed(() => wishlistStore.wishlist.length); // Use length to get the count
+    const comparisonItemCount = computed(
+      () => comparisonStore.comparisonItems.length
+    ); // Use length to get the count
 
     return {
       showNavbar,
       toggleNavbar,
       cartItemCount,
+      wishlistItemCount,
+      comparisonItemCount,
       isAuthenticated,
       handleLogout,
     };
