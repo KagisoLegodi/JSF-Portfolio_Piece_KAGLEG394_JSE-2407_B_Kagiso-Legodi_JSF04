@@ -72,7 +72,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  padding: 2rem;
+  padding: 10px ;
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -83,8 +83,9 @@ export default {
   flex: 1;
   max-width: 300px;
   width: 100%;
-  height: auto;
+  height: 100%;
   border-radius: 8px;
+  padding: 10px;
 }
 .product-info {
   flex: 2;
