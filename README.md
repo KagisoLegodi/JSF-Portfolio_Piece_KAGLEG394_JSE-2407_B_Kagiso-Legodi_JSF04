@@ -4,6 +4,10 @@
 
 This project is a Vue.js application designed to facilitate product comparisons. Users can add products to a comparison list, view them side by side, and manage the list with features such as item limits and table formatting. The application also integrates user authentication for managing comparison lists.
 
+## Live Demo
+
+[link](https://swifty-liart.vercel.app/)
+
 ## Features
 
 - **Comparison Page**: Users can compare products side by side.
