@@ -34,10 +34,10 @@
               @click="addToComparisonStore(product)"
               class="text-blue-500 hover:text-blue-700 transition-colors duration-300"
             >
-             <font-awesome-icon
-                  :icon="['fas', 'exchange']"
-                  class="text-black hover:text-blue-500"
-                />
+              <font-awesome-icon
+                :icon="['fas', 'exchange']"
+                class="text-black hover:text-blue-500"
+              />
             </button>
           </div>
           <div class="flex-1 flex flex-col p-6">
@@ -141,6 +141,7 @@ import { useCartStore } from "../stores/cartStore";
 import { useLoginStore } from "../stores/loginStore";
 import { useWishlistStore } from "../stores/wishlistStore";
 import { useComparisonStore } from "../stores/comparisonStore";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 export default {
   name: "ProductList",
@@ -153,16 +154,15 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const comparisonStore = useComparisonStore();
+    const cartStore = useCartStore();
+    const loginStore = useLoginStore();
+    const wishlistStore = useWishlistStore();
 
     const loading = ref(true);
     const products = ref([]);
     const categories = ref([]);
     const selectedCategory = ref(route.query.category || "");
-    const sortOrder = ref(route.query.sort || "default"); // Default to "default"
-    const cartStore = useCartStore();
-    const loginStore = useLoginStore();
-    const wishlistStore = useWishlistStore();
-
+    const sortOrder = ref(route.query.sort || "default");
     const isLoggedIn = computed(() => loginStore.isAuthenticated);
 
     const filteredProducts = computed(() => {
@@ -214,24 +214,49 @@ export default {
       };
 
       cartStore.addToCart(cartItem);
-
       product.addedToCart = true;
 
       setTimeout(() => {
         product.addedToCart = false;
       }, 1000);
 
-      console.log(`${product.title} added to cart!`);
+      // SweetAlert notification for adding to cart
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `${product.title} added to cart!`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     };
 
     const toggleWishlist = (product) => {
-      if (wishlistStore.isInWishlist(product.id)) {
+      if (isInWishlist(product.id)) {
         wishlistStore.removeFromWishlist(product.id);
+
+        // SweetAlert notification for removing from wishlist
+        Swal.fire({
+          position: "top-end",
+          icon: "info",
+          title: `${product.title} removed from wishlist!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         wishlistStore.addToWishlist(product);
+
+        // SweetAlert notification for adding to wishlist
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${product.title} added to wishlist!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     };
 
+    // Ensure this method is defined in your setup function
     const isInWishlist = (productId) => {
       return wishlistStore.isInWishlist(productId);
     };
@@ -240,15 +265,21 @@ export default {
       router.push({ name: "ProductDetail", params: { id: productId } });
     };
 
+    const addToComparisonStore = (product) => {
+      comparisonStore.addToComparison(product);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Product added to comparison",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    };
+
     onMounted(() => {
       fetchProducts();
       fetchCategoriesData();
     });
-
-    const addToComparisonStore = (product) => {
-      comparisonStore.addToComparison(product);
-      console.log('${product.title}');
-    };
 
     return {
       products,
