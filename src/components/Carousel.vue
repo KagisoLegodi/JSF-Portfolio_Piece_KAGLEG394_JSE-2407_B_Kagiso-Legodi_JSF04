@@ -9,11 +9,11 @@
         :key="item.id"
         class="flex-none w-full max-w-sm px-2 py-4 snap-center"
       >
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden ">
           <img
             :src="item.image"
             :alt="item.title"
-            class="w-full h-48 object-contain"
+            class="w-full h-48 object-contain p-10"
           />
           <div class="p-4">
             <h2 class="text-xl font-semibold mb-2">{{ item.title }}</h2>
