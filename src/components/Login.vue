@@ -77,7 +77,7 @@ export default {
 
       try {
         await loginStore.login(username.value, password.value);
-        const redirectPath = router.currentRoute.value.query.redirect || "/";
+        const redirectPath = router.currentRoute.value.query.redirect || "/products";
         router.push(redirectPath);
       } catch (error) {
         errorMessage.value = "Login failed. Please try again.";
