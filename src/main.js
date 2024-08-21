@@ -6,10 +6,10 @@ import { createPinia } from "pinia";
 // FontAwesome Imports
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faShoppingCart, faStar, faInfoCircle,faTrash,faFilter,faBalanceScale,faHome} from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faStar, faInfoCircle,faTrash,faFilter,faBalanceScale,faHome,faExchange} from "@fortawesome/free-solid-svg-icons";
 
 // Add the shopping cart icon to the library
-library.add(faShoppingCart, faStar, faInfoCircle,faTrash,faFilter,faBalanceScale,faHome);
+library.add(faShoppingCart, faStar, faInfoCircle,faTrash,faFilter,faBalanceScale,faHome,faExchange);
 
 const pinia = createPinia();
 
