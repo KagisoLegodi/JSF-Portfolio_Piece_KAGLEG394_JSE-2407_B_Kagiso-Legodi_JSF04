@@ -5,7 +5,7 @@
       <p>Your wishlist is empty. Start adding products you like!</p>
     </div>
 
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div v-else class="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
       <div
         v-for="item in wishlist"
         :key="item.id"
@@ -41,19 +41,25 @@
         </div>
       </div>
     </div>
+
+    <button
+      @click="clearWishlist"
+      class="mt-6 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+    >
+      Clear Wishlist
+    </button>
+    <button
+      @click="goBack"
+      class="mt-4 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400"
+    >
+      Go Back to Product List
+    </button>
   </div>
-  <button
-    @click="clearWishlist"
-    class="mt-6 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
-  >
-    Clear Wishlist
-  </button>
-  <button @click="goBack" class="back-button">Go Back to Product List</button>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router"; // Import useRouter and useRoute
+import { useRouter, useRoute } from "vue-router";
 import { useCartStore } from "../stores/cartStore";
 import { useWishlistStore } from "../stores/wishlistStore";
 
@@ -62,10 +68,10 @@ export default {
     const cartStore = useCartStore();
     const wishlistStore = useWishlistStore();
     const wishlist = ref([]);
-    const router = useRouter(); // Initialize router
-    const route = useRoute(); // Initialize route
+    const router = useRouter();
+    const route = useRoute();
 
-    // Fetch wishlist from local storage
+    // Fetch wishlist from local storage or store
     const fetchWishlist = () => {
       wishlist.value = JSON.parse(localStorage.getItem("wishlist")) || [];
     };
