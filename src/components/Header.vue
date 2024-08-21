@@ -10,8 +10,9 @@
               <img src="/online-shop.png" class="h-8" alt="SwiftCart Logo" />
               <span
                 class="self-center text-2xl font-semibold whitespace-nowrap text-white"
-                >Swifty</span
               >
+                Swifty
+              </span>
             </div>
           </router-link>
           <button
@@ -44,15 +45,15 @@
           id="navbar-dropdown"
         >
           <ul
-            class="flex flex-col top-10 font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0"
+            class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0"
           >
             <li>
               <router-link
                 to="/comparison"
                 class="block py-2 px-3 text-white rounded hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:border-0 md:hover:text-blue-700"
-                aria-label="comparison"
+                aria-label="Comparison"
               >
-                <div>Comparison</div>
+                Comparison
               </router-link>
             </li>
             <li>
@@ -102,7 +103,7 @@
                 Cart
                 <span
                   v-if="cartItemCount"
-                  class="absolute top-0 right-0 inline-block px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full"
+                  class="top-0 right-0 inline-block px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full"
                 >
                   {{ cartItemCount }}
                 </span>
@@ -138,9 +139,13 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useLoginStore } from "../stores/loginStore";
 import { useCartStore } from "../stores/cartStore";
+import Theme from "../components/Theme.vue";
 
 export default {
   name: "Header",
+  components: {
+    Theme,
+  },
   setup() {
     const showNavbar = ref(false);
     const router = useRouter();
@@ -155,7 +160,7 @@ export default {
 
     const handleLogout = async () => {
       try {
-        await loginStore.logout();
+        loginStore.logout();
         router.push("/");
       } catch (error) {
         console.error("Logout failed:", error);
