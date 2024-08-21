@@ -139,13 +139,10 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useLoginStore } from "../stores/loginStore";
 import { useCartStore } from "../stores/cartStore";
-import Theme from "../components/Theme.vue";
+
 
 export default {
   name: "Header",
-  components: {
-    Theme,
-  },
   setup() {
     const showNavbar = ref(false);
     const router = useRouter();
