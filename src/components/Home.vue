@@ -1,5 +1,11 @@
 <template>
   <div class="home">
+    <!-- Welcome Message -->
+    <div class="text-center py-4">
+      <h1 class="text-3xl font-bold mb-2 text-white">Welcome to Swifty!</h1>
+      <p class="text-lg text-gray-">Explore our exclusive offers and latest products.</p>
+    </div>
+
     <!-- Loading state -->
     <div v-if="loading" class="text-center py-10">
       <p>Loading products...</p>
@@ -97,9 +103,9 @@ export default {
 </script>
 
 <style scoped>
-/* Add any necessary styles here */
 
-/* Example of responsive styling for the carousel */
+
+/* Responsive styling for the carousel */
 .home {
   max-width: 1200px;
   margin: auto;
