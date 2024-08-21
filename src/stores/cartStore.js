@@ -18,11 +18,11 @@ export const useCartStore = defineStore("cart", {
     addToCart(product) {
       const existingItem = this.items.find((item) => item.id === product.id);
       if (existingItem) {
-        existingItem.quantity++; // Increase quantity if product exists
+        existingItem.quantity++; // Increase quantity
       } else {
         this.items.push({ ...product, quantity: 1 }); // Add new product to cart
       }
-      console.log("Added to cart:", product); // Log the product for debugging
+      console.log("Added to cart:", product); // Log the product 
     },
     removeFromCart(productId) {
       const index = this.items.findIndex((item) => item.id === productId);
