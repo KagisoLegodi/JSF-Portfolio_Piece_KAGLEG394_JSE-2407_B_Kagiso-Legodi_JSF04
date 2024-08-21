@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="container mx-auto p-4">
-      <h1 class="text-2xl font-bold mb-4 text-center animate-bounce text-white">Swifty</h1>
+      <h1 class="text-2xl font-bold mb-4 text-center animate-bounce text-white">
+        Swifty
+      </h1>
 
       <div class="filters">
         <Filter
@@ -25,8 +27,19 @@
           <img
             :src="product.image"
             :alt="product.title"
-            class="object-contain h-48 mt-3"
+            class="object-contain h-48 mt-3 p-7"
           />
+          <div class="p-4 flex items-center justify-between">
+            <button
+              @click="addToComparisonStore(product)"
+              class="text-blue-500 hover:text-blue-700 transition-colors duration-300"
+            >
+             <font-awesome-icon
+                  :icon="['fas', 'exchange']"
+                  class="text-black hover:text-blue-500"
+                />
+            </button>
+          </div>
           <div class="flex-1 flex flex-col p-6">
             <header class="mb-2 flex-2">
               <h5
@@ -39,7 +52,7 @@
               <!-- Rating stars -->
               <div class="flex items-center space-x-1">
                 <svg
-                  v-for="star in 1"
+                  v-for="star in 5"
                   :key="star"
                   class="w-4 h-4"
                   :class="{
@@ -75,8 +88,10 @@
               <span class="text-3xl font-bold text-green-500 dark:text-white">
                 ${{ product.price.toFixed(2) }}
               </span>
+
               <!-- Cart Icon (only shown when logged in) -->
               <button
+                v-if="isLoggedIn"
                 class="text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 @click.stop="addToCart(product)"
                 :disabled="product.addedToCart"
@@ -86,14 +101,17 @@
                   class="text-white"
                 />
               </button>
+
               <!-- Wishlist Icon (only shown when logged in) -->
               <button
+                v-if="isLoggedIn"
                 class="text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 @click.stop="toggleWishlist(product)"
                 :class="{ '': isInWishlist(product.id) }"
               >
                 <font-awesome-icon :icon="['fas', 'star']" class="text-white" />
               </button>
+
               <!-- Product Info Button (navigates to details page) -->
               <button
                 class="text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
@@ -122,6 +140,7 @@ import { filterProducts, fetchCategories } from "../productUtils";
 import { useCartStore } from "../stores/cartStore";
 import { useLoginStore } from "../stores/loginStore";
 import { useWishlistStore } from "../stores/wishlistStore";
+import { useComparisonStore } from "../stores/comparisonStore";
 
 export default {
   name: "ProductList",
@@ -133,6 +152,7 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
+    const comparisonStore = useComparisonStore();
 
     const loading = ref(true);
     const products = ref([]);
@@ -225,41 +245,37 @@ export default {
       fetchCategoriesData();
     });
 
+    const addToComparisonStore = (product) => {
+      comparisonStore.addToComparison(product);
+      console.log('${product.title}');
+    };
+
     return {
-      loading,
       products,
       categories,
       selectedCategory,
       sortOrder,
       filteredProducts,
+      loading,
+      addToCart,
+      addToComparisonStore,
+      toggleWishlist,
+      goToProductDetails,
+      isLoggedIn,
+      isInWishlist,
       handleCategoryChange,
       handleSortChange,
-      addToCart,
-      isLoggedIn,
-      toggleWishlist,
-      isInWishlist,
-      goToProductDetails,
     };
   },
 };
 </script>
 
-<style>
-.container {
-  max-width: 1200px;
-}
-
+<style scoped>
+/* Add your custom styles here */
 .filters {
-  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
-}
-.container {
-  padding: 1rem;
-  max-width: 1200px;
-  margin: auto;
-}
-.grid {
-  gap: 1rem;
+  align-items: center;
+  margin-bottom: 20px;
 }
 </style>
